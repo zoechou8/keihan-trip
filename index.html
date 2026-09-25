@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes,viewport-fit=cover">
+<title>京阪54行｜手機版 V3</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:Arial,"Microsoft JhengHei",sans-serif;background:#f4f5f7;color:#1d1d1f;-webkit-text-size-adjust:100%}
+header{background:#fff;padding:18px 12px 10px;border-bottom:1px solid #ddd}
+.eyebrow{font-size:12px;color:#666} h1{font-size:23px;margin:5px 0 10px}
+.datebar{display:flex;width:100%;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:4px 0 6px}
+.datebtn{display:block;flex:0 0 auto;min-width:62px;border:1px solid #bbb;background:#fff;color:#222;padding:10px 8px;border-radius:10px;font-size:14px;font-weight:bold;text-align:center}
+.datebtn.active{background:#222;color:#fff;border-color:#222}
+main{max-width:720px;margin:0 auto;padding:14px 12px 95px}
+.hero,.transport{background:#fff;border-radius:15px;padding:15px;margin:0 0 12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.hero h2{font-size:19px;margin:0 0 6px} .muted{font-size:13px;color:#777} .hint{font-size:13px;color:#777;margin-top:7px}
+.card{display:flex;background:#fff;border-radius:14px;padding:14px;margin:9px 0;box-shadow:0 2px 8px rgba(0,0,0,.05);cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.08)}
+.time{width:76px;flex:0 0 76px;font-weight:bold;font-size:14px;padding-right:8px}
+.body{flex:1;min-width:0} .activity{font-size:16px;font-weight:bold;line-height:1.45}
+.arrow{float:right;font-size:11px;color:#777} .detail{display:none;margin-top:10px;padding:10px;background:#f4f5f7;border-radius:9px;font-size:14px;color:#555;line-height:1.6}
+.card.open .detail{display:block} .card.open .arrow{transform:rotate(180deg)}
+.dayPanel{display:none} #day-1126{display:block}
+#allView,#transportView{display:none}
+.route{font-size:18px;font-weight:bold;margin:5px 0} .mode{font-size:14px;color:#555}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #ccc;padding:7px 5px calc(7px + env(safe-area-inset-bottom));z-index:20}
+.navinner{max-width:720px;margin:auto;display:flex}
+.navbtn{flex:1;border:0;background:#fff;color:#666;padding:7px 3px;font-size:13px} .navbtn.active{font-weight:bold;color:#111}
+noscript div{margin:12px;padding:12px;background:#fff3cd;border-radius:10px}
+@media(max-width:380px){.datebtn{min-width:58px;padding:9px 6px}.time{width:67px;flex-basis:67px}}
+</style>
+</head>
+<body>
+<noscript><div>⚠️ 此瀏覽器沒有執行 JavaScript，因此日期切換功能無法使用。請改用 Safari 或 Chrome 開啟。</div></noscript>
+<header>
+ <div class="eyebrow">🇯🇵 京阪54行・手機版 V3</div>
+ <h1 id="title">每日行程</h1>
+ <!-- 日期按鈕直接存在 HTML，不依賴 JavaScript 產生 -->
+ <div id="datebar" class="datebar">
+   <button class="datebtn active" id="btn-1126" onclick="showDay('1126')">11/26</button>
+   <button class="datebtn" id="btn-1127" onclick="showDay('1127')">11/27</button>
+   <button class="datebtn" id="btn-1128" onclick="showDay('1128')">11/28</button>
+   <button class="datebtn" id="btn-1129" onclick="showDay('1129')">11/29</button>
+   <button class="datebtn" id="btn-1130" onclick="showDay('1130')">11/30</button>
+ </div>
+</header>
+<main>
+ <div id="todayView"><section id="day-1126" class="dayPanel">
+      <div class="hero"><h2>11/26　KIX → 神戶 → 姬路</h2><div class="muted">共 24 筆主要行程</div>
+      <div class="hint">點任何一筆行程可展開／收合詳細說明。</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:00</div>
+          <div class="body"><div class="activity">✈️ 抵達關西機場 KIX <span class="arrow">▼</span></div>
+          <div class="detail">💡 正式以這個時間計算</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:00～07:35</div>
+          <div class="body"><div class="activity">入境、領行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不趕07:15船<br><br>但真正有「硬截止」的是姬路城——16:00以後就不能新入城。 所以我會要求你 13:00左右開始離開圓教寺，14:00～14:15抵達姬路城。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:50</div>
+          <div class="body"><div class="activity">T1 12號站牌搭 Bay Shuttle 接駁車 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ⭐以這班當正式計畫</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:00</div>
+          <div class="body"><div class="activity">🚤 關西機場碼頭開船 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這樣即使前面交通慢個20～30分鐘，你仍有緩衝。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:31</div>
+          <div class="body"><div class="activity">抵達神戶機場海上碼頭 <span class="arrow">▼</span></div>
+          <div class="detail">💡 官方船程31分鐘 (神戶航線)</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:40</div>
+          <div class="body"><div class="activity">Port Liner 神戶機場 P09 <span class="arrow">▼</span></div>
+          <div class="detail">💡 姬路城應該留多久？</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:00</div>
+          <div class="body"><div class="activity">抵達三宮 P01 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:05～09:25</div>
+          <div class="body"><div class="activity">🧳 步行至 Hotel Viamare Kobe寄放行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 飯店官方確認入住前可寄放當日行李 (維亞馬雷神戶)<br><br>我不建議只排1小時。姬路城不是走到外面拍白色天守就結束；既然專程到了，我會保留 約2小時，把：</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:25～09:40</div>
+          <div class="body"><div class="activity">回 JR 三ノ宮站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:45～10:30</div>
+          <div class="body"><div class="activity">🚆 JR新快速 三ノ宮 → 姬路 <span class="arrow">▼</span></div>
+          <div class="detail">💡 實際班次待11月再鎖定<br><br>菱之門 → 城內防禦路線 → 大天守 → 西之丸／百間廊下</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約10:30</div>
+          <div class="body"><div class="activity">抵達JR姬路站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:35～10:55</div>
+          <div class="body"><div class="activity">🚕 計程車 → 書寫山纜車山麓站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這段選計程車是為了保住姬路城時間<br><br>納入。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">11:00左右</div>
+          <div class="body"><div class="activity">🚡 搭纜車上書寫山 <span class="arrow">▼</span></div>
+          <div class="detail">💡 纜車每00、15、30、45分發車 (兵庫県姫路市、書寫山圓教寺を繋ぐ【書写山ロープウェイ】)</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">11:05～13:00</div>
+          <div class="body"><div class="activity">🍁 書寫山圓教寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約1小時50分～2小時<br><br>官方現在也提醒，大天守每小時控制在 1,000人，人多時可能在大天守入口等待；電子票也不代表可以跳過排隊。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:00左右</div>
+          <div class="body"><div class="activity">開始往纜車站返回 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不要再拖</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約13:30</div>
+          <div class="body"><div class="activity">🚡 下山 <span class="arrow">▼</span></div>
+          <div class="detail">💡 所以：</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:35～13:55</div>
+          <div class="body"><div class="activity">🚕 書寫山 → 姬路城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 建議仍搭計程車</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約14:00～14:15</div>
+          <div class="body"><div class="activity">🏯 抵達姬路城、入城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ⭐這是我希望你守住的時間<br><br>14:00進城 = 很舒服</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">14:15～16:15左右</div>
+          <div class="body"><div class="activity">姬路城完整參觀 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約2小時<br><br>14:30進城 = 還可以</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">16:15～16:40</div>
+          <div class="body"><div class="activity">三之丸廣場、城外拍照 <span class="arrow">▼</span></div>
+          <div class="detail">💡 天色開始轉暗<br><br>15:00才進城 = 開始趕</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約16:45～17:00</div>
+          <div class="body"><div class="activity">往JR姬路站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 16:00 = 最後入城，不適合作為你的計畫</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約17:10～18:00</div>
+          <div class="body"><div class="activity">🚆 JR新快速 姬路 → 神戶 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約18:00後</div>
+          <div class="body"><div class="activity">🌃 神戶 Harborland／煉瓦倉庫夜景 <span class="arrow">▼</span></div>
+          <div class="detail">💡 完全已經天黑<br><br>那好古園呢？</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約20:00～21:00</div>
+          <div class="body"><div class="activity">回 Hotel Viamare Kobe Check-in <span class="arrow">▼</span></div>
+          <div class="detail">💡 行李已在飯店</div></div></div>
+    </section><section id="day-1127" class="dayPanel">
+      <div class="hero"><h2>11/27　神戶 → 京都</h2><div class="muted">共 7 筆主要行程</div>
+      <div class="hint">點任何一筆行程可展開／收合詳細說明。</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:40～06:45</div>
+          <div class="body"><div class="activity">Hotel Viamare Kobe退房 <span class="arrow">▼</span></div>
+          <div class="detail">💡 早餐建議簡單處理</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約06:55</div>
+          <div class="body"><div class="activity">步行到JR三ノ宮 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約8分鐘</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約07:05～07:15</div>
+          <div class="body"><div class="activity">JR新快速 → 京都 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約50多分鐘</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:00～08:10</div>
+          <div class="body"><div class="activity">抵達京都站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:10～08:25</div>
+          <div class="body"><div class="activity">🧳 Crosta京都寄行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 地下1樓，08:00開門</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:25左右</div>
+          <div class="body"><div class="activity">🚕 京都站 → 銀閣寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 紅葉旺季不建議坐一路塞車的市巴士</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:50</div>
+          <div class="body"><div class="activity">抵達銀閣寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+    </section><section id="day-1128" class="dayPanel">
+      <div class="hero"><h2>11/28　京都・清水寺 → 祇園</h2><div class="muted">共 12 筆主要行程</div>
+      <div class="hint">點任何一筆行程可展開／收合詳細說明。</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">05:30～05:40</div>
+          <div class="body"><div class="activity">Oyado Shinmachi Gojo出發 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約05:55</div>
+          <div class="body"><div class="activity">🚕 抵達清水寺附近 <span class="arrow">▼</span></div>
+          <div class="detail">💡 然後用「高處往低處」走：</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:00～07:20</div>
+          <div class="body"><div class="activity">⭐清水寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:20～08:30</div>
+          <div class="body"><div class="activity">產寧坂 → 二年坂 → 八坂塔 <span class="arrow">▼</span></div>
+          <div class="detail">💡 清水寺</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:30～09:00</div>
+          <div class="body"><div class="activity">早餐／咖啡休息 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:00～10:15</div>
+          <div class="body"><div class="activity">高台寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 產寧坂</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:15～10:45</div>
+          <div class="body"><div class="activity">寧寧之道散步 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:45～12:00</div>
+          <div class="body"><div class="activity">花見小路＋祇園 <span class="arrow">▼</span></div>
+          <div class="detail">💡 二年坂</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">12:00～13:00</div>
+          <div class="body"><div class="activity">午餐 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約13:15</div>
+          <div class="body"><div class="activity">🚕 祇園 → 三十三間堂 <span class="arrow">▼</span></div>
+          <div class="detail">💡 八坂塔</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:30～14:30</div>
+          <div class="body"><div class="activity">三十三間堂 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">14:30後</div>
+          <div class="body"><div class="activity">自由活動／回飯店休息 <span class="arrow">▼</span></div>
+          <div class="detail">💡 高台寺</div></div></div>
+    </section><section id="day-1129" class="dayPanel">
+      <div class="hero"><h2>11/29　京都 → 大阪</h2><div class="muted">共 15 筆主要行程</div>
+      <div class="hint">點任何一筆行程可展開／收合詳細說明。</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:30～08:00</div>
+          <div class="body"><div class="activity">Oyado Shinmachi Gojo 退房 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不用太早起</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:15</div>
+          <div class="body"><div class="activity">前往JR京都站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:30左右</div>
+          <div class="body"><div class="activity">JR京都 → JR大阪 <span class="arrow">▼</span></div>
+          <div class="detail">💡 搭新快速約30分鐘</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:00～09:15</div>
+          <div class="body"><div class="activity">抵達大阪站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:15～09:30</div>
+          <div class="body"><div class="activity">🧳 Hotel Hearton Nishiumeda寄行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 飯店離大阪站非常近</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:35</div>
+          <div class="body"><div class="activity">大阪站出發 → 大阪城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:00～12:15</div>
+          <div class="body"><div class="activity">🏯 大阪城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 建議留約2小時<br><br>① 上午一定先放 大阪城</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">12:15～13:00</div>
+          <div class="body"><div class="activity">午餐／移動 <span class="arrow">▼</span></div>
+          <div class="detail">💡 4.4•城堡網站•方向•06-6941-3044<br>這個順序有原因。<br>大阪城天守閣目前官方開放時間是 09:00～18:00，最後入館17:30。<br>而且你去的 11/29剛好是星期日，<br>還有一個很巧的地方：2026年秋季櫓特別公開的最後一天，就是11月29日。今年秋季星期六、日及假日開放多聞櫓、千貫櫓等平常不一定能進入的設施，11/29正好趕上最後一天。<br>所以這一天大阪城我不會只安排「外面拍照30分鐘」。<br>建議至少：大阪城公園 → 天守閣 → 城牆／護城河 → 有興趣再看秋季櫓特別公開<br>留 2～2.5小時。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:15～16:30</div>
+          <div class="body"><div class="activity">🛍️ 心齋橋＋道頓堀 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約3～3.5小時<br><br>② 下午再去 Shinsaibashi-Suji Shopping Street ＋ Dotonbori</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">16:30～17:00</div>
+          <div class="body"><div class="activity">地鐵返回梅田 <span class="arrow">▼</span></div>
+          <div class="detail">💡 我反而不會把心齋橋排上午。<br>因為心齋橋很多商店約 11:00左右才陸續營業，結構化商家資料目前也顯示商店街約11:00～20:00。<br>上午太早去，會浪費時間。所以大阪城結束後再來最好。<br>約13:15～16:30我會走：心齋橋站↓心齋橋筋商店街↓戎橋↓固力果跑跑人↓道頓堀↓法善寺橫丁（有時間再去）這條就是一路往南走。且下午走到道頓堀，大概已經接近傍晚，招牌逐漸亮起來，氣氛會比白天好很多。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">17:00～18:30</div>
+          <div class="body"><div class="activity">梅田逛街／晚餐 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">18:30～20:00</div>
+          <div class="body"><div class="activity">🌃 梅田藍天大廈空中庭園夜景 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ⭐這天的收尾<br><br>③ 晚上一定回梅田</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">20:00以後</div>
+          <div class="body"><div class="activity">梅田自由逛街 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不用再趕交通<br><br>這部分我覺得跟你飯店的位置搭得非常好。因為你住的 Hearton Hotel Nishiumeda就在大阪站西側，<br>所以沒有必要在道頓堀待到晚上九、十點才回飯店。<br>大概 16:30～17:00離開難波／心齋橋 → 梅田。<br>先逛：大阪站 → Grand Front Osaka → KITTE大阪 → 梅田周邊吃完東西後，<br>再去：Umeda Sky Building 空中庭園展望台。目前官方營業時間是 09:30～22:30，最後入場22:00，所以完全不用趕。<br>我會抓：🌃 18:30～20:00 空中庭園11月底大阪大約17點前後就已經日落，所以18:30上去就是完整夜景，不必在上面等天黑。而且它是360度屋頂露天展望台，不是隔著玻璃看而已。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約21:00～</div>
+          <div class="body"><div class="activity">回 Hearton Hotel Nishiumeda <span class="arrow">▼</span></div>
+          <div class="detail">💡 Check-in</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">🚇 回梅田</div>
+          <div class="body"><div class="activity">梅田的六個車站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 https://matcha-jp.com/jp/562</div></div></div>
+    </section><section id="day-1130" class="dayPanel">
+      <div class="hero"><h2>11/30　大阪 → KIX → 桃園</h2><div class="muted">共 11 筆主要行程</div>
+      <div class="hint">點任何一筆行程可展開／收合詳細說明。</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:30～07:00</div>
+          <div class="body"><div class="activity">起床、整理行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:00～07:30</div>
+          <div class="body"><div class="activity">早餐 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:35～07:45</div>
+          <div class="body"><div class="activity">Hotel Hearton Nishiumeda 退房 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約07:45</div>
+          <div class="body"><div class="activity">步行前往 JR 大阪站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:51左右</div>
+          <div class="body"><div class="activity">搭 JR 特急 HARUKA 7號 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:40</div>
+          <div class="body"><div class="activity">抵達 關西機場站 KIX <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:45左右</div>
+          <div class="body"><div class="activity">進入 第一航廈 T1 國際線 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:45～09:30</div>
+          <div class="body"><div class="activity">虎航報到、托運行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">之後</div>
+          <div class="body"><div class="activity">安檢、出境 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約10:00～10:30</div>
+          <div class="body"><div class="activity">進候機區，逛免稅店／吃東西 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">11:30</div>
+          <div class="body"><div class="activity">✈️ 虎航飛往桃園 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+    </section></div>
+ <div id="allView"><section class="allDay">
+      <div class="hero"><h2>11/26　KIX → 神戶 → 姬路</h2><div class="muted">共 24 筆主要行程</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:00</div>
+          <div class="body"><div class="activity">✈️ 抵達關西機場 KIX <span class="arrow">▼</span></div>
+          <div class="detail">💡 正式以這個時間計算</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:00～07:35</div>
+          <div class="body"><div class="activity">入境、領行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不趕07:15船<br><br>但真正有「硬截止」的是姬路城——16:00以後就不能新入城。 所以我會要求你 13:00左右開始離開圓教寺，14:00～14:15抵達姬路城。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:50</div>
+          <div class="body"><div class="activity">T1 12號站牌搭 Bay Shuttle 接駁車 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ⭐以這班當正式計畫</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:00</div>
+          <div class="body"><div class="activity">🚤 關西機場碼頭開船 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這樣即使前面交通慢個20～30分鐘，你仍有緩衝。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:31</div>
+          <div class="body"><div class="activity">抵達神戶機場海上碼頭 <span class="arrow">▼</span></div>
+          <div class="detail">💡 官方船程31分鐘 (神戶航線)</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:40</div>
+          <div class="body"><div class="activity">Port Liner 神戶機場 P09 <span class="arrow">▼</span></div>
+          <div class="detail">💡 姬路城應該留多久？</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:00</div>
+          <div class="body"><div class="activity">抵達三宮 P01 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:05～09:25</div>
+          <div class="body"><div class="activity">🧳 步行至 Hotel Viamare Kobe寄放行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 飯店官方確認入住前可寄放當日行李 (維亞馬雷神戶)<br><br>我不建議只排1小時。姬路城不是走到外面拍白色天守就結束；既然專程到了，我會保留 約2小時，把：</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:25～09:40</div>
+          <div class="body"><div class="activity">回 JR 三ノ宮站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:45～10:30</div>
+          <div class="body"><div class="activity">🚆 JR新快速 三ノ宮 → 姬路 <span class="arrow">▼</span></div>
+          <div class="detail">💡 實際班次待11月再鎖定<br><br>菱之門 → 城內防禦路線 → 大天守 → 西之丸／百間廊下</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約10:30</div>
+          <div class="body"><div class="activity">抵達JR姬路站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:35～10:55</div>
+          <div class="body"><div class="activity">🚕 計程車 → 書寫山纜車山麓站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這段選計程車是為了保住姬路城時間<br><br>納入。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">11:00左右</div>
+          <div class="body"><div class="activity">🚡 搭纜車上書寫山 <span class="arrow">▼</span></div>
+          <div class="detail">💡 纜車每00、15、30、45分發車 (兵庫県姫路市、書寫山圓教寺を繋ぐ【書写山ロープウェイ】)</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">11:05～13:00</div>
+          <div class="body"><div class="activity">🍁 書寫山圓教寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約1小時50分～2小時<br><br>官方現在也提醒，大天守每小時控制在 1,000人，人多時可能在大天守入口等待；電子票也不代表可以跳過排隊。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:00左右</div>
+          <div class="body"><div class="activity">開始往纜車站返回 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不要再拖</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約13:30</div>
+          <div class="body"><div class="activity">🚡 下山 <span class="arrow">▼</span></div>
+          <div class="detail">💡 所以：</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:35～13:55</div>
+          <div class="body"><div class="activity">🚕 書寫山 → 姬路城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 建議仍搭計程車</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約14:00～14:15</div>
+          <div class="body"><div class="activity">🏯 抵達姬路城、入城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ⭐這是我希望你守住的時間<br><br>14:00進城 = 很舒服</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">14:15～16:15左右</div>
+          <div class="body"><div class="activity">姬路城完整參觀 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約2小時<br><br>14:30進城 = 還可以</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">16:15～16:40</div>
+          <div class="body"><div class="activity">三之丸廣場、城外拍照 <span class="arrow">▼</span></div>
+          <div class="detail">💡 天色開始轉暗<br><br>15:00才進城 = 開始趕</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約16:45～17:00</div>
+          <div class="body"><div class="activity">往JR姬路站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 16:00 = 最後入城，不適合作為你的計畫</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約17:10～18:00</div>
+          <div class="body"><div class="activity">🚆 JR新快速 姬路 → 神戶 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約18:00後</div>
+          <div class="body"><div class="activity">🌃 神戶 Harborland／煉瓦倉庫夜景 <span class="arrow">▼</span></div>
+          <div class="detail">💡 完全已經天黑<br><br>那好古園呢？</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約20:00～21:00</div>
+          <div class="body"><div class="activity">回 Hotel Viamare Kobe Check-in <span class="arrow">▼</span></div>
+          <div class="detail">💡 行李已在飯店</div></div></div>
+    </section><section class="allDay">
+      <div class="hero"><h2>11/27　神戶 → 京都</h2><div class="muted">共 7 筆主要行程</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:40～06:45</div>
+          <div class="body"><div class="activity">Hotel Viamare Kobe退房 <span class="arrow">▼</span></div>
+          <div class="detail">💡 早餐建議簡單處理</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約06:55</div>
+          <div class="body"><div class="activity">步行到JR三ノ宮 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約8分鐘</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約07:05～07:15</div>
+          <div class="body"><div class="activity">JR新快速 → 京都 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約50多分鐘</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:00～08:10</div>
+          <div class="body"><div class="activity">抵達京都站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:10～08:25</div>
+          <div class="body"><div class="activity">🧳 Crosta京都寄行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 地下1樓，08:00開門</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:25左右</div>
+          <div class="body"><div class="activity">🚕 京都站 → 銀閣寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 紅葉旺季不建議坐一路塞車的市巴士</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:50</div>
+          <div class="body"><div class="activity">抵達銀閣寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+    </section><section class="allDay">
+      <div class="hero"><h2>11/28　京都・清水寺 → 祇園</h2><div class="muted">共 12 筆主要行程</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">05:30～05:40</div>
+          <div class="body"><div class="activity">Oyado Shinmachi Gojo出發 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約05:55</div>
+          <div class="body"><div class="activity">🚕 抵達清水寺附近 <span class="arrow">▼</span></div>
+          <div class="detail">💡 然後用「高處往低處」走：</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:00～07:20</div>
+          <div class="body"><div class="activity">⭐清水寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:20～08:30</div>
+          <div class="body"><div class="activity">產寧坂 → 二年坂 → 八坂塔 <span class="arrow">▼</span></div>
+          <div class="detail">💡 清水寺</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:30～09:00</div>
+          <div class="body"><div class="activity">早餐／咖啡休息 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:00～10:15</div>
+          <div class="body"><div class="activity">高台寺 <span class="arrow">▼</span></div>
+          <div class="detail">💡 產寧坂</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:15～10:45</div>
+          <div class="body"><div class="activity">寧寧之道散步 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:45～12:00</div>
+          <div class="body"><div class="activity">花見小路＋祇園 <span class="arrow">▼</span></div>
+          <div class="detail">💡 二年坂</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">12:00～13:00</div>
+          <div class="body"><div class="activity">午餐 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約13:15</div>
+          <div class="body"><div class="activity">🚕 祇園 → 三十三間堂 <span class="arrow">▼</span></div>
+          <div class="detail">💡 八坂塔</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:30～14:30</div>
+          <div class="body"><div class="activity">三十三間堂 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ↓</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">14:30後</div>
+          <div class="body"><div class="activity">自由活動／回飯店休息 <span class="arrow">▼</span></div>
+          <div class="detail">💡 高台寺</div></div></div>
+    </section><section class="allDay">
+      <div class="hero"><h2>11/29　京都 → 大阪</h2><div class="muted">共 15 筆主要行程</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:30～08:00</div>
+          <div class="body"><div class="activity">Oyado Shinmachi Gojo 退房 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不用太早起</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:15</div>
+          <div class="body"><div class="activity">前往JR京都站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:30左右</div>
+          <div class="body"><div class="activity">JR京都 → JR大阪 <span class="arrow">▼</span></div>
+          <div class="detail">💡 搭新快速約30分鐘</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:00～09:15</div>
+          <div class="body"><div class="activity">抵達大阪站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">09:15～09:30</div>
+          <div class="body"><div class="activity">🧳 Hotel Hearton Nishiumeda寄行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 飯店離大阪站非常近</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約09:35</div>
+          <div class="body"><div class="activity">大阪站出發 → 大阪城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">10:00～12:15</div>
+          <div class="body"><div class="activity">🏯 大阪城 <span class="arrow">▼</span></div>
+          <div class="detail">💡 建議留約2小時<br><br>① 上午一定先放 大阪城</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">12:15～13:00</div>
+          <div class="body"><div class="activity">午餐／移動 <span class="arrow">▼</span></div>
+          <div class="detail">💡 4.4•城堡網站•方向•06-6941-3044<br>這個順序有原因。<br>大阪城天守閣目前官方開放時間是 09:00～18:00，最後入館17:30。<br>而且你去的 11/29剛好是星期日，<br>還有一個很巧的地方：2026年秋季櫓特別公開的最後一天，就是11月29日。今年秋季星期六、日及假日開放多聞櫓、千貫櫓等平常不一定能進入的設施，11/29正好趕上最後一天。<br>所以這一天大阪城我不會只安排「外面拍照30分鐘」。<br>建議至少：大阪城公園 → 天守閣 → 城牆／護城河 → 有興趣再看秋季櫓特別公開<br>留 2～2.5小時。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">13:15～16:30</div>
+          <div class="body"><div class="activity">🛍️ 心齋橋＋道頓堀 <span class="arrow">▼</span></div>
+          <div class="detail">💡 約3～3.5小時<br><br>② 下午再去 Shinsaibashi-Suji Shopping Street ＋ Dotonbori</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">16:30～17:00</div>
+          <div class="body"><div class="activity">地鐵返回梅田 <span class="arrow">▼</span></div>
+          <div class="detail">💡 我反而不會把心齋橋排上午。<br>因為心齋橋很多商店約 11:00左右才陸續營業，結構化商家資料目前也顯示商店街約11:00～20:00。<br>上午太早去，會浪費時間。所以大阪城結束後再來最好。<br>約13:15～16:30我會走：心齋橋站↓心齋橋筋商店街↓戎橋↓固力果跑跑人↓道頓堀↓法善寺橫丁（有時間再去）這條就是一路往南走。且下午走到道頓堀，大概已經接近傍晚，招牌逐漸亮起來，氣氛會比白天好很多。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">17:00～18:30</div>
+          <div class="body"><div class="activity">梅田逛街／晚餐 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">18:30～20:00</div>
+          <div class="body"><div class="activity">🌃 梅田藍天大廈空中庭園夜景 <span class="arrow">▼</span></div>
+          <div class="detail">💡 ⭐這天的收尾<br><br>③ 晚上一定回梅田</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">20:00以後</div>
+          <div class="body"><div class="activity">梅田自由逛街 <span class="arrow">▼</span></div>
+          <div class="detail">💡 不用再趕交通<br><br>這部分我覺得跟你飯店的位置搭得非常好。因為你住的 Hearton Hotel Nishiumeda就在大阪站西側，<br>所以沒有必要在道頓堀待到晚上九、十點才回飯店。<br>大概 16:30～17:00離開難波／心齋橋 → 梅田。<br>先逛：大阪站 → Grand Front Osaka → KITTE大阪 → 梅田周邊吃完東西後，<br>再去：Umeda Sky Building 空中庭園展望台。目前官方營業時間是 09:30～22:30，最後入場22:00，所以完全不用趕。<br>我會抓：🌃 18:30～20:00 空中庭園11月底大阪大約17點前後就已經日落，所以18:30上去就是完整夜景，不必在上面等天黑。而且它是360度屋頂露天展望台，不是隔著玻璃看而已。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約21:00～</div>
+          <div class="body"><div class="activity">回 Hearton Hotel Nishiumeda <span class="arrow">▼</span></div>
+          <div class="detail">💡 Check-in</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">🚇 回梅田</div>
+          <div class="body"><div class="activity">梅田的六個車站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 https://matcha-jp.com/jp/562</div></div></div>
+    </section><section class="allDay">
+      <div class="hero"><h2>11/30　大阪 → KIX → 桃園</h2><div class="muted">共 11 筆主要行程</div></div>
+      <div class="card" onclick="toggleDetail(this)">
+          <div class="time">06:30～07:00</div>
+          <div class="body"><div class="activity">起床、整理行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:00～07:30</div>
+          <div class="body"><div class="activity">早餐 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:35～07:45</div>
+          <div class="body"><div class="activity">Hotel Hearton Nishiumeda 退房 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約07:45</div>
+          <div class="body"><div class="activity">步行前往 JR 大阪站 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">07:51左右</div>
+          <div class="body"><div class="activity">搭 JR 特急 HARUKA 7號 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約08:40</div>
+          <div class="body"><div class="activity">抵達 關西機場站 KIX <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:45左右</div>
+          <div class="body"><div class="activity">進入 第一航廈 T1 國際線 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">08:45～09:30</div>
+          <div class="body"><div class="activity">虎航報到、托運行李 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">之後</div>
+          <div class="body"><div class="activity">安檢、出境 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">約10:00～10:30</div>
+          <div class="body"><div class="activity">進候機區，逛免稅店／吃東西 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+<div class="card" onclick="toggleDetail(this)">
+          <div class="time">11:30</div>
+          <div class="body"><div class="activity">✈️ 虎航飛往桃園 <span class="arrow">▼</span></div>
+          <div class="detail">💡 這一筆目前沒有額外備註。</div></div></div>
+    </section></div>
+ <div id="transportView">
+   <div class="hero"><h2>🚆 交通移動指南</h2><div class="hint">整理自 Excel「交通移動指南」。</div></div>
+   <div class="transport"><div class="muted">2026/11/26</div><div class="route">KIX→神戶</div><div class="mode">🚆 高速船 Bay Shuttle</div></div><div class="transport"><div class="muted">2026/11/27</div><div class="route">神戶→京都</div><div class="mode">🚆 JR新快速</div></div><div class="transport"><div class="muted">2026/11/29</div><div class="route">京都→大阪</div><div class="mode">🚆 JR新快速</div></div><div class="transport"><div class="muted">2026/11/30</div><div class="route">大阪→KIX</div><div class="mode">🚆 HARUKA</div></div>
+ </div>
+</main>
+<nav><div class="navinner">
+ <button id="navToday" class="navbtn active" onclick="showView('today')">🏠<br>每日行程</button>
+ <button id="navAll" class="navbtn" onclick="showView('all')">📅<br>全部行程</button>
+ <button id="navTransport" class="navbtn" onclick="showView('transport')">🚆<br>交通指南</button>
+</div></nav>
+<script>
+var currentDay='1126';
+
+function byId(id){return document.getElementById(id);}
+function showDay(day){
+ currentDay=day;
+ showView('today',true);
+ var panels=document.getElementsByClassName('dayPanel');
+ for(var i=0;i<panels.length;i++) panels[i].style.display='none';
+ var p=byId('day-'+day); if(p) p.style.display='block';
+ var btns=document.getElementsByClassName('datebtn');
+ for(var j=0;j<btns.length;j++) btns[j].className='datebtn';
+ var b=byId('btn-'+day); if(b) b.className='datebtn active';
+ window.scrollTo(0,0);
+}
+function showView(view,keepScroll){
+ byId('todayView').style.display=view==='today'?'block':'none';
+ byId('allView').style.display=view==='all'?'block':'none';
+ byId('transportView').style.display=view==='transport'?'block':'none';
+ byId('datebar').style.display=view==='today'?'flex':'none';
+ byId('navToday').className='navbtn'+(view==='today'?' active':'');
+ byId('navAll').className='navbtn'+(view==='all'?' active':'');
+ byId('navTransport').className='navbtn'+(view==='transport'?' active':'');
+ byId('title').innerHTML=view==='today'?'每日行程':(view==='all'?'全部行程':'交通指南');
+ if(view==='today'){
+   var panels=document.getElementsByClassName('dayPanel');
+   for(var i=0;i<panels.length;i++) panels[i].style.display='none';
+   if(byId('day-'+currentDay)) byId('day-'+currentDay).style.display='block';
+ }
+ if(!keepScroll) window.scrollTo(0,0);
+}
+function toggleDetail(el){
+ if(el.className.indexOf('open')>=0) el.className='card';
+ else el.className='card open';
+}
+</script>
+</body>
+</html>
