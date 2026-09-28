@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>京阪之旅｜手機版 V3.2</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif;background:#f4f5f7;color:#1d1d1f;-webkit-text-size-adjust:100%}
+header{background:#fff;padding:17px 12px 10px;border-bottom:1px solid #ddd;position:sticky;top:0;z-index:8}
+.eyebrow,.muted{font-size:12px;color:#6e6e73} h1{font-size:22px;margin:4px 0 10px}
+.datebar{display:flex;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:3px 0 5px}
+.datebtn,.pill{flex:0 0 auto;border:1px solid #c8c8cc;background:#fff;padding:9px 10px;border-radius:10px;font-weight:700}
+.datebtn.active,.pill.active{background:#1d1d1f;color:#fff;border-color:#1d1d1f}
+main{max-width:760px;margin:auto;padding:13px 12px 105px}
+.hero,.box{background:#fff;border-radius:16px;padding:15px;margin-bottom:11px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.hero h2,.box h2{font-size:19px;margin:0 0 6px}.hint{font-size:13px;color:#777;margin-top:7px}
+.card{background:#fff;border-radius:14px;padding:13px;margin:9px 0;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.row{display:flex;gap:10px;align-items:flex-start}.time{width:72px;flex:0 0 72px;font-weight:800;font-size:14px}.grow{flex:1;min-width:0}
+.activity{font-size:16px;font-weight:750;line-height:1.45}.detail{display:none;margin-top:9px;padding:10px;background:#f4f5f7;border-radius:9px;font-size:14px;color:#555;line-height:1.6;white-space:pre-wrap}
+.card.open .detail{display:block}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.action{border:1px solid #c8c8cc;background:#fff;border-radius:9px;padding:7px 9px;font-size:13px;font-weight:700;text-decoration:none;color:#1d1d1f}
+.doneBtn.done{background:#e8f5e9;border-color:#9ac79c}.doneCard{opacity:.62}.doneCard .activity{text-decoration:line-through}
+.panel{display:none}.panel.active{display:block}.route{font-size:17px;font-weight:800;margin:4px 0}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}
+input,select{width:100%;font:inherit;padding:10px;border:1px solid #c8c8cc;border-radius:10px;background:#fff}
+.primary{border:0;background:#1d1d1f;color:#fff;padding:11px 14px;border-radius:10px;font-weight:800}
+.moneySummary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.money{background:#f4f5f7;padding:12px;border-radius:12px}.money strong{font-size:19px}
+.expense{display:grid;grid-template-columns:70px 1fr auto;gap:8px;align-items:center;border-top:1px solid #eee;padding:10px 0}.expense:first-child{border-top:0}
+.delete{border:0;background:none;font-size:18px}.toptools{display:flex;gap:7px;overflow-x:auto;margin-bottom:10px}
+nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid #ccc;z-index:20;padding:6px 3px calc(6px + env(safe-area-inset-bottom))}
+.navinner{max-width:760px;margin:auto;display:flex;overflow-x:auto}.navbtn{min-width:70px;flex:1;border:0;background:none;color:#666;padding:6px 3px;font-size:12px}.navbtn.active{font-weight:800;color:#111}
+@media(max-width:390px){.time{width:62px;flex-basis:62px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">🇯🇵 京阪之旅・手機版 V3.2</div>
+ <h1 id="pageTitle">每日行程</h1>
+ <div id="datebar" class="datebar">
+  <button class="datebtn active" data-day="1126">11/26</button><button class="datebtn" data-day="1127">11/27</button>
+  <button class="datebtn" data-day="1128">11/28</button><button class="datebtn" data-day="1129">11/29</button><button class="datebtn" data-day="1130">11/30</button>
+ </div>
+</header>
+<main>
+ <section id="tripPanel" class="panel active"></section>
+ <section id="hotelPanel" class="panel"></section>
+ <section id="flightPanel" class="panel"></section>
+ <section id="transportPanel" class="panel"></section>
+ <section id="moneyPanel" class="panel"></section>
+</main>
+<nav><div class="navinner">
+ <button class="navbtn active" data-panel="trip">📅<br>行程</button>
+ <button class="navbtn" data-panel="hotel">🏨<br>住宿</button>
+ <button class="navbtn" data-panel="flight">✈️<br>航班</button>
+ <button class="navbtn" data-panel="transport">🚆<br>交通</button>
+ <button class="navbtn" data-panel="money">💰<br>記帳</button>
+</div></nav>
+<script>
+const DATA={"days": {"1126": {"date": "11/26", "title": "KIX → 神戶 → 姬路", "items": [{"time": "06:00", "activity": "✈️ 抵達關西機場 KIX", "note": "正式以這個時間計算"}, {"time": "06:00～07:35", "activity": "入境、領行李", "note": "不趕07:15船\n\n但真正有「硬截止」的是姬路城——16:00以後就不能新入城。 所以我會要求你 13:00左右開始離開圓教寺，14:00～14:15抵達姬路城。"}, {"time": "07:50", "activity": "T1 12號站牌搭 Bay Shuttle 接駁車", "note": "⭐以這班當正式計畫"}, {"time": "08:00", "activity": "🚤 關西機場碼頭開船", "note": "這樣即使前面交通慢個20～30分鐘，你仍有緩衝。"}, {"time": "08:31", "activity": "抵達神戶機場海上碼頭", "note": "官方船程31分鐘 (神戶航線)"}, {"time": "約08:40", "activity": "Port Liner 神戶機場 P09", "note": "姬路城應該留多久？"}, {"time": "約09:00", "activity": "抵達三宮 P01", "note": ""}, {"time": "09:05～09:25", "activity": "🧳 步行至 Hotel Viamare Kobe寄放行李", "note": "飯店官方確認入住前可寄放當日行李 (維亞馬雷神戶)\n\n我不建議只排1小時。姬路城不是走到外面拍白色天守就結束；既然專程到了，我會保留 約2小時，把："}, {"time": "09:25～09:40", "activity": "回 JR 三ノ宮站", "note": ""}, {"time": "約09:45～10:30", "activity": "🚆 JR新快速 三ノ宮 → 姬路", "note": "實際班次待11月再鎖定\n\n菱之門 → 城內防禦路線 → 大天守 → 西之丸／百間廊下"}, {"time": "約10:30", "activity": "抵達JR姬路站", "note": ""}, {"time": "10:35～10:55", "activity": "🚕 計程車 → 書寫山纜車山麓站", "note": "這段選計程車是為了保住姬路城時間\n\n納入。"}, {"time": "11:00左右", "activity": "🚡 搭纜車上書寫山", "note": "纜車每00、15、30、45分發車 (兵庫県姫路市、書寫山圓教寺を繋ぐ【書写山ロープウェイ】)"}, {"time": "11:05～13:00", "activity": "🍁 書寫山圓教寺", "note": "約1小時50分～2小時\n\n官方現在也提醒，大天守每小時控制在 1,000人，人多時可能在大天守入口等待；電子票也不代表可以跳過排隊。"}, {"time": "13:00左右", "activity": "開始往纜車站返回", "note": "不要再拖"}, {"time": "約13:30", "activity": "🚡 下山", "note": "所以："}, {"time": "13:35～13:55", "activity": "🚕 書寫山 → 姬路城", "note": "建議仍搭計程車"}, {"time": "約14:00～14:15", "activity": "🏯 抵達姬路城、入城", "note": "⭐這是我希望你守住的時間\n\n14:00進城 = 很舒服"}, {"time": "14:15～16:15左右", "activity": "姬路城完整參觀", "note": "約2小時\n\n14:30進城 = 還可以"}, {"time": "16:15～16:40", "activity": "三之丸廣場、城外拍照", "note": "天色開始轉暗\n\n15:00才進城 = 開始趕"}, {"time": "約16:45～17:00", "activity": "往JR姬路站", "note": "16:00 = 最後入城，不適合作為你的計畫"}, {"time": "約17:10～18:00", "activity": "🚆 JR新快速 姬路 → 神戶", "note": ""}, {"time": "約18:00後", "activity": "🌃 神戶 Harborland／煉瓦倉庫夜景", "note": "完全已經天黑\n\n那好古園呢？"}, {"time": "約20:00～21:00", "activity": "回 Hotel Viamare Kobe Check-in", "note": "行李已在飯店"}]}, "1127": {"date": "11/27", "title": "神戶 → 京都", "items": [{"time": "06:40～06:45", "activity": "Hotel Viamare Kobe退房", "note": "早餐建議簡單處理"}, {"time": "約06:55", "activity": "步行到JR三ノ宮", "note": "約8分鐘"}, {"time": "約07:05～07:15", "activity": "JR新快速 → 京都", "note": "約50多分鐘"}, {"time": "約08:00～08:10", "activity": "抵達京都站", "note": ""}, {"time": "08:10～08:25", "activity": "🧳 Crosta京都寄行李", "note": "地下1樓，08:00開門"}, {"time": "08:25左右", "activity": "🚕 京都站 → 銀閣寺", "note": "紅葉旺季不建議坐一路塞車的市巴士"}, {"time": "約08:50", "activity": "抵達銀閣寺", "note": ""}]}, "1128": {"date": "11/28", "title": "京都・清水寺 → 祇園", "items": [{"time": "05:30～05:40", "activity": "Oyado Shinmachi Gojo出發", "note": ""}, {"time": "約05:55", "activity": "🚕 抵達清水寺附近", "note": "然後用「高處往低處」走："}, {"time": "06:00～07:20", "activity": "⭐清水寺", "note": ""}, {"time": "07:20～08:30", "activity": "產寧坂 → 二年坂 → 八坂塔", "note": "清水寺"}, {"time": "08:30～09:00", "activity": "早餐／咖啡休息", "note": "↓"}, {"time": "09:00～10:15", "activity": "高台寺", "note": "產寧坂"}, {"time": "10:15～10:45", "activity": "寧寧之道散步", "note": "↓"}, {"time": "10:45～12:00", "activity": "花見小路＋祇園", "note": "二年坂"}, {"time": "12:00～13:00", "activity": "午餐", "note": "↓"}, {"time": "約13:15", "activity": "🚕 祇園 → 三十三間堂", "note": "八坂塔"}, {"time": "13:30～14:30", "activity": "三十三間堂", "note": "↓"}, {"time": "14:30後", "activity": "自由活動／回飯店休息", "note": "高台寺"}]}, "1129": {"date": "11/29", "title": "京都 → 大阪", "items": [{"time": "07:30～08:00", "activity": "Oyado Shinmachi Gojo 退房", "note": "不用太早起"}, {"time": "約08:15", "activity": "前往JR京都站", "note": ""}, {"time": "08:30左右", "activity": "JR京都 → JR大阪", "note": "搭新快速約30分鐘"}, {"time": "約09:00～09:15", "activity": "抵達大阪站", "note": ""}, {"time": "09:15～09:30", "activity": "🧳 Hotel Hearton Nishiumeda寄行李", "note": "飯店離大阪站非常近"}, {"time": "約09:35", "activity": "大阪站出發 → 大阪城", "note": ""}, {"time": "10:00～12:15", "activity": "🏯 大阪城", "note": "建議留約2小時\n\n① 上午一定先放 大阪城"}, {"time": "12:15～13:00", "activity": "午餐／移動", "note": "4.4•城堡網站•方向•06-6941-3044\n這個順序有原因。\n大阪城天守閣目前官方開放時間是 09:00～18:00，最後入館17:30。\n而且你去的 11/29剛好是星期日，\n還有一個很巧的地方：2026年秋季櫓特別公開的最後一天，就是11月29日。今年秋季星期六、日及假日開放多聞櫓、千貫櫓等平常不一定能進入的設施，11/29正好趕上最後一天。\n所以這一天大阪城我不會只安排「外面拍照30分鐘」。\n建議至少：大阪城公園 → 天守閣 → 城牆／護城河 → 有興趣再看秋季櫓特別公開\n留 2～2.5小時。"}, {"time": "13:15～16:30", "activity": "🛍️ 心齋橋＋道頓堀", "note": "約3～3.5小時\n\n② 下午再去 Shinsaibashi-Suji Shopping Street ＋ Dotonbori"}, {"time": "16:30～17:00", "activity": "地鐵返回梅田", "note": "我反而不會把心齋橋排上午。\n因為心齋橋很多商店約 11:00左右才陸續營業，結構化商家資料目前也顯示商店街約11:00～20:00。\n上午太早去，會浪費時間。所以大阪城結束後再來最好。\n約13:15～16:30我會走：心齋橋站↓心齋橋筋商店街↓戎橋↓固力果跑跑人↓道頓堀↓法善寺橫丁（有時間再去）這條就是一路往南走。且下午走到道頓堀，大概已經接近傍晚，招牌逐漸亮起來，氣氛會比白天好很多。"}, {"time": "17:00～18:30", "activity": "梅田逛街／晚餐", "note": ""}, {"time": "18:30～20:00", "activity": "🌃 梅田藍天大廈空中庭園夜景", "note": "⭐這天的收尾\n\n③ 晚上一定回梅田"}, {"time": "20:00以後", "activity": "梅田自由逛街", "note": "不用再趕交通\n\n這部分我覺得跟你飯店的位置搭得非常好。因為你住的 Hearton Hotel Nishiumeda就在大阪站西側，\n所以沒有必要在道頓堀待到晚上九、十點才回飯店。\n大概 16:30～17:00離開難波／心齋橋 → 梅田。\n先逛：大阪站 → Grand Front Osaka → KITTE大阪 → 梅田周邊吃完東西後，\n再去：Umeda Sky Building 空中庭園展望台。目前官方營業時間是 09:30～22:30，最後入場22:00，所以完全不用趕。\n我會抓：🌃 18:30～20:00 空中庭園11月底大阪大約17點前後就已經日落，所以18:30上去就是完整夜景，不必在上面等天黑。而且它是360度屋頂露天展望台，不是隔著玻璃看而已。"}, {"time": "約21:00～", "activity": "回 Hearton Hotel Nishiumeda", "note": "Check-in"}, {"time": "🚇 回梅田", "activity": "梅田的六個車站", "note": "https://matcha-jp.com/jp/562"}]}, "1130": {"date": "11/30", "title": "大阪 → KIX → 桃園", "items": [{"time": "06:30～07:00", "activity": "起床、整理行李", "note": ""}, {"time": "07:00～07:30", "activity": "早餐", "note": ""}, {"time": "07:35～07:45", "activity": "Hotel Hearton Nishiumeda 退房", "note": ""}, {"time": "約07:45", "activity": "步行前往 JR 大阪站", "note": ""}, {"time": "07:51左右", "activity": "搭 JR 特急 HARUKA 7號", "note": ""}, {"time": "約08:40", "activity": "抵達 關西機場站 KIX", "note": ""}, {"time": "08:45左右", "activity": "進入 第一航廈 T1 國際線", "note": ""}, {"time": "08:45～09:30", "activity": "虎航報到、托運行李", "note": ""}, {"time": "之後", "activity": "安檢、出境", "note": ""}, {"time": "約10:00～10:30", "activity": "進候機區，逛免稅店／吃東西", "note": ""}, {"time": "11:30", "activity": "✈️ 虎航飛往桃園", "note": ""}]}}, "transport": [{"date": "2026/11/26", "route": "KIX→神戶", "mode": "高速船 Bay Shuttle"}, {"date": "2026/11/27", "route": "神戶→京都", "mode": "JR新快速"}, {"date": "2026/11/29", "route": "京都→大阪", "mode": "JR新快速"}, {"date": "2026/11/30", "route": "大阪→KIX", "mode": "HARUKA"}], "hotels": [{"date": "11/26", "name": "Hotel Viamare Kobe", "note": "神戶住宿；行程表安排先寄放行李，晚間 Check-in。"}, {"date": "11/27～11/28", "name": "Oyado Shinmachi Gojo", "note": "京都住宿；行程資料安排晚間取行李後前往住宿。"}, {"date": "11/29", "name": "Hearton Hotel Nishi Umeda", "note": "大阪／西梅田住宿；行程表安排先寄放行李，晚間 Check-in。"}], "flights": [{"date": "11/26", "title": "抵達關西機場 KIX", "detail": "06:00 抵達 KIX；原始行程未提供抵達航班號。"}, {"date": "11/30", "title": "台灣虎航 IT211", "detail": "11:30 關西機場 KIX → 13:50 桃園國際機場 TPE｜經濟艙"}]};
+let currentDay="1126";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const mapUrl=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+function mapQuery(activity){
+ const rules=[
+  ["姬路城","姬路城"],
+  ["書寫山","書寫山圓教寺"],
+  ["圓教寺","書寫山圓教寺"],
+  ["神戶布引","神戶布引香草園"],
+  ["布引香草","神戶布引香草園"],
+  ["北野異人館","神戶北野異人館街"],
+  ["生田神社","生田神社"],
+  ["南京町","神戶南京町"],
+  ["神戶港","神戶港"],
+  ["清水寺","清水寺 京都"],
+  ["八坂神社","八坂神社 京都"],
+  ["祇園","祇園 京都"],
+  ["伏見稻荷","伏見稻荷大社"],
+  ["錦市場","錦市場 京都"],
+  ["嵐山","嵐山 京都"],
+  ["大阪城","大阪城"],
+  ["道頓堀","道頓堀"],
+  ["心齋橋","心齋橋"],
+  ["梅田","大阪梅田"],
+  ["關西機場","關西國際機場"],
+  ["KIX","關西國際機場"]
+ ];
+ for(const [key,q] of rules){ if(activity.includes(key)) return q; }
+ return activity;
+}
+
+function doneKey(day,i){return "keihan_done_"+day+"_"+i}
+function isDone(day,i){return localStorage.getItem(doneKey(day,i))==="1"}
+function toggleDone(day,i){
+ localStorage.setItem(doneKey(day,i),isDone(day,i)?"0":"1"); renderTrip();
+}
+function toggleCard(el){el.classList.toggle("open")}
+function renderTrip(){
+ const d=DATA.days[currentDay];
+ let cards=d.items.map((x,i)=>{
+   const done=isDone(currentDay,i);
+   return `<article class="card ${done?"doneCard":""}" onclick="toggleCard(this)">
+    <div class="row"><div class="time">${esc(x.time)}</div><div class="grow">
+      <div class="activity">${esc(x.activity)}</div>
+      <div class="detail">${x.note?"💡 "+esc(x.note):"這一筆目前沒有額外備註。"}</div>
+      <div class="actions">
+       <button class="action doneBtn ${done?"done":""}" onclick="event.stopPropagation();toggleDone('${currentDay}',${i})">${done?"✅ 已完成":"☐ 完成標記"}</button>
+       <a class="action" target="_blank" rel="noopener" onclick="event.stopPropagation()" href="${mapUrl(mapQuery(x.activity))}">🗺️ 導航</a>
+      </div>
+    </div></div></article>`;
+ }).join("");
+ $("tripPanel").innerHTML=`<div class="hero"><h2>${esc(d.date)}　${esc(d.title)}</h2><div class="muted">共 ${d.items.length} 筆主要行程</div><div class="hint">點行程看說明；「完成標記」會保存在這台裝置的瀏覽器。</div></div>${cards}`;
+}
+function renderHotels(){
+ $("hotelPanel").innerHTML=`<div class="hero"><h2>🏨 住宿</h2><div class="hint">住宿名稱依原始 Excel 行程整理。</div></div>`+
+ DATA.hotels.map(h=>`<div class="box"><div class="muted">${esc(h.date)}</div><h2>${esc(h.name)}</h2><div>${esc(h.note)}</div><div class="actions"><a class="action" target="_blank" rel="noopener" href="${mapUrl(h.name)}">🗺️ 飯店導航</a></div></div>`).join("");
+}
+function renderFlights(){
+ $("flightPanel").innerHTML=`<div class="hero"><h2>✈️ 航班</h2><div class="hint">只顯示原始 Excel 有提供的航班資訊。</div></div>`+
+ DATA.flights.map(f=>`<div class="box"><div class="muted">${esc(f.date)}</div><h2>${esc(f.title)}</h2><div>${esc(f.detail)}</div></div>`).join("");
+}
+function renderTransport(){
+ $("transportPanel").innerHTML=`<div class="hero"><h2>🚆 主要交通</h2><div class="hint">整理自 Excel「交通移動指南」。</div></div>`+
+ DATA.transport.map(t=>`<div class="box"><div class="muted">${esc(t.date)}</div><div class="route">${esc(t.route)}</div><div>${esc(t.mode)}</div><div class="actions"><a class="action" target="_blank" rel="noopener" href="${mapUrl(t.route+" "+t.mode)}">🗺️ 查看地圖</a></div></div>`).join("");
+}
+function getExpenses(){try{return JSON.parse(localStorage.getItem("keihan_expenses")||"[]")}catch(e){return []}}
+function saveExpenses(x){localStorage.setItem("keihan_expenses",JSON.stringify(x))}
+function addExpense(){
+ const date=$("expDate").value, cat=$("expCat").value, note=$("expNote").value.trim(), cur=$("expCur").value, amount=parseFloat($("expAmount").value);
+ if(!date||!Number.isFinite(amount)||amount<0){alert("請輸入日期與正確金額");return}
+ const arr=getExpenses(); arr.unshift({id:Date.now(),date,cat,note,cur,amount}); saveExpenses(arr);
+ $("expNote").value=""; $("expAmount").value=""; renderMoney();
+}
+function delExpense(id){saveExpenses(getExpenses().filter(x=>x.id!==id));renderMoney()}
+function renderMoney(){
+ const arr=getExpenses(); let jpy=0,twd=0;
+ arr.forEach(x=>x.cur==="JPY"?jpy+=x.amount:twd+=x.amount);
+ const rows=arr.length?arr.map(x=>`<div class="expense"><div><b>${esc(x.date)}</b><br><span class="muted">${esc(x.cat)}</span></div><div>${esc(x.note||"未填備註")}<br><b>${x.cur==="JPY"?"¥":"NT$"} ${Number(x.amount).toLocaleString()}</b></div><button class="delete" onclick="delExpense(${x.id})">🗑️</button></div>`).join(""):`<div class="muted">目前還沒有記帳資料。</div>`;
+ $("moneyPanel").innerHTML=`<div class="hero"><h2>💰 旅行記帳</h2><div class="hint">資料只存在目前這台裝置的瀏覽器，不會上傳 GitHub。清除瀏覽器資料可能會遺失紀錄。</div></div>
+ <div class="box"><div class="formgrid">
+  <div><label>日期</label><input id="expDate" type="date" value="2026-11-26"></div>
+  <div><label>分類</label><select id="expCat"><option>餐飲</option><option>交通</option><option>住宿</option><option>門票</option><option>購物</option><option>其他</option></select></div>
+  <div><label>幣別</label><select id="expCur"><option value="JPY">日圓 JPY</option><option value="TWD">台幣 TWD</option></select></div>
+  <div><label>金額</label><input id="expAmount" type="number" min="0" step="1" placeholder="例如 1200"></div>
+  <div class="full"><label>備註</label><input id="expNote" placeholder="例如：拉麵、HARUKA、伴手禮"></div>
+  <div class="full"><button class="primary" onclick="addExpense()">＋ 新增支出</button></div>
+ </div></div>
+ <div class="box"><h2>支出合計</h2><div class="moneySummary"><div class="money">日圓<br><strong>¥ ${jpy.toLocaleString()}</strong></div><div class="money">台幣<br><strong>NT$ ${twd.toLocaleString()}</strong></div></div>${rows}</div>`;
+}
+function showPanel(name){
+ ["trip","hotel","flight","transport","money"].forEach(n=>$(n+"Panel").classList.toggle("active",n===name));
+ document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.panel===name));
+ $("datebar").style.display=name==="trip"?"flex":"none";
+ const titles={trip:"每日行程",hotel:"住宿",flight:"航班",transport:"交通",money:"旅行記帳"};
+ $("pageTitle").textContent=titles[name]; window.scrollTo(0,0);
+ if(name==="money")renderMoney();
+}
+document.querySelectorAll(".datebtn").forEach(b=>b.addEventListener("click",()=>{currentDay=b.dataset.day;document.querySelectorAll(".datebtn").forEach(x=>x.classList.toggle("active",x===b));renderTrip();window.scrollTo(0,0)}));
+document.querySelectorAll(".navbtn").forEach(b=>b.addEventListener("click",()=>showPanel(b.dataset.panel)));
+renderTrip();renderHotels();renderFlights();renderTransport();renderMoney();
+</script>
+</body></html>
